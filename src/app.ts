@@ -12,6 +12,6 @@ export const lambdaHandler = async (
 ): Promise<APIGatewayProxyResult> => {
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: 'Hello World from CI/CD' }),
+    body: JSON.stringify({ message: 'Hello World' }),
   };
 };

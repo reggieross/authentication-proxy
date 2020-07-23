@@ -30,7 +30,7 @@ jobs:
           steps:
             - run: npm run test:integration
 
-  deploy:
+  deploy_dev:
     executor:
       name: node/default
     steps:
@@ -38,7 +38,30 @@ jobs:
       - node/with-cache:
           steps:
             - run: sudo npm i -g serverless
+            - run: npm run build
             - run: sls deploy
+
+  deploy_int:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: sudo npm i -g serverless
+            - run: npm run build
+            - run: sls deploy --stage int
+
+  deploy_prd:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: sudo npm i -g serverless
+            - run: npm run build
+            - run: sls deploy --stage prd
 
 workflows:
   version: 2
@@ -51,7 +74,8 @@ workflows:
       - unit-test:
           requires:
             - build
-      - deploy:
+      - deploy_dev:
+          context: authentication_proxy
           filters:
             branches:
               only:
@@ -60,3 +84,31 @@ workflows:
             - build
             - integration-test
             - unit-test
+
+      - hold_int:
+          type: approval
+          requires:
+            - deploy_dev
+
+      - deploy_int:
+          requires:
+            - hold_int
+          context: authentication_proxy
+          filters:
+            branches:
+              only:
+                - master
+
+      - hold_prd:
+          type: approval
+          requires:
+            - deploy_int
+
+      - deploy_prd:
+          context: authentication_proxy
+          requires:
+            - hold_prd
+          filters:
+            branches:
+              only:
+                - master

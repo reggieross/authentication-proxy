@@ -18,6 +18,6 @@ describe('Tests index', function () {
     const result = await lambdaHandler(event);
     expect(result.statusCode).toEqual(200);
     let response = JSON.parse(result.body);
-    expect(response.message.toLowerCase()).toEqual('hello world');
+    expect(response.message).toEqual('Hello World');
   });
 });
