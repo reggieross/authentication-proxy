@@ -1,0 +1,43 @@
+{
+  "name": "authentication-proxy",
+  "version": "1.0.0",
+  "description": "Lambda function for proxying requests to GQL",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.51",
+    "@types/jest": "^26.0.5",
+    "@types/node": "^13.13.5",
+    "aws-sdk": "^2.655.0",
+    "jest": "^26.1.0",
+    "ts-jest": "^25.2.1",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test:integration": "jest --config=jest.integration.config.json --passWithNoTests --forceExit --ci",
+    "test:unit": "jest --config=jest.unit.config.json --passWithNoTests --forceExit --ci"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest"
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "author": "Reginald Ross",
+  "license": "ISC",
+  "dependencies": {
+    "babel-jest": "^26.1.0",
+    "prettier": "^2.0.5"
+  }
+}

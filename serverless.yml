@@ -1,0 +1,8 @@
+org: rross
+app: authentication-proxy
+name: authentication-proxy
+component: aws-lambda
+
+inputs:
+  src: ./build
+  handler: app.lambdaHandler
