@@ -5,66 +5,58 @@ defaults: &defaults
     name: node/default
 
 orbs:
-  node: circleci/node@1.1.6
+  node: circleci/node@3.0.0
+
 jobs:
   build:
     <<: *defaults
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: sudo npm i -g serverless
-            - run: npm install
-            - run: npm run build
-            - persist_to_workspace:
-                root: ~/repo
-                paths: .
+      - node/install-npm
+      - node/install-packages:
+          app-dir: ~/repo
+          cache-path: node_modules
+          override-ci-command: npm i
+      - run: sudo npm i -g serverless
+      - run: npm run build
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
 
   unit-test:
     <<: *defaults
     steps:
-      - node/with-cache:
-          steps:
-            - attach_workspace:
-                at: ~/repo
-            - run: npm run test:unit
+      - attach_workspace:
+          at: ~/repo
+      - run: npm run test:unit
 
   integration-test:
     <<: *defaults
     steps:
-      - node/with-cache:
-          steps:
-            - attach_workspace:
-                  at: ~/repo
-            - run: npm run test:integration
+      - attach_workspace:
+          at: ~/repo
+      - run: npm run test:integration
 
   deploy_dev:
     <<: *defaults
     steps:
-      - node/with-cache:
-          steps:
-            - attach_workspace:
-                at: ~/repo
-            - run: sls deploy
+      - attach_workspace:
+          at: ~/repo
+      - run: sls deploy
 
   deploy_int:
     <<: *defaults
     steps:
-      - node/with-cache:
-          steps:
-            - attach_workspace:
-                at: ~/repo
-            - run: sls deploy --stage int
+      - attach_workspace:
+          at: ~/repo
+      - run: sls deploy --stage int
 
   deploy_prd:
     <<: *defaults
     steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - attach_workspace:
-                at: ~/repo
-            - run: sls deploy --stage prd
+      - attach_workspace:
+          at: ~/repo
+      - run: sls deploy --stage prd
 
 workflows:
   version: 2
