@@ -6,3 +6,12 @@ component: aws-lambda
 inputs:
   src: ./build
   handler: app.lambdaHandler
+  events:
+    - http:
+        path: /payments
+        method: any
+        cors: true
+    - http:
+        path: /policy
+        method: any
+        cors: true
