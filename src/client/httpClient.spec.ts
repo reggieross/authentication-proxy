@@ -1,7 +1,6 @@
-import { HttpClient } from './HttpClient';
 import fetchMock from 'jest-fetch-mock';
-
 import fetch, { Headers, Response } from 'node-fetch';
+import { HttpClient } from './httpClient';
 
 describe('Http Client', () => {
   describe('Get', () => {
