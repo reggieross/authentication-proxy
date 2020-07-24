@@ -1,10 +1,14 @@
 version: 2.1
+defaults: &defaults
+  working_directory: ~/repo
+  executor:
+    name: node/default
+
 orbs:
   node: circleci/node@1.1.6
 jobs:
   build:
-    executor:
-      name: node/default
+    <<: *defaults
     steps:
       - checkout
       - node/with-cache:
@@ -17,8 +21,7 @@ jobs:
                 paths: .
 
   unit-test:
-    executor:
-      name: node/default
+    <<: *defaults
     steps:
       - node/with-cache:
           steps:
@@ -27,8 +30,7 @@ jobs:
             - run: npm run test:unit
 
   integration-test:
-    executor:
-      name: node/default
+    <<: *defaults
     steps:
       - node/with-cache:
           steps:
@@ -37,8 +39,7 @@ jobs:
             - run: npm run test:integration
 
   deploy_dev:
-    executor:
-      name: node/default
+    <<: *defaults
     steps:
       - node/with-cache:
           steps:
@@ -47,8 +48,7 @@ jobs:
             - run: sls deploy
 
   deploy_int:
-    executor:
-      name: node/default
+    <<: *defaults
     steps:
       - node/with-cache:
           steps:
@@ -57,8 +57,7 @@ jobs:
             - run: sls deploy --stage int
 
   deploy_prd:
-    executor:
-      name: node/default
+    <<: *defaults
     steps:
       - checkout
       - node/with-cache:
