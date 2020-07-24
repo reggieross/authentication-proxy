@@ -8,10 +8,10 @@ functions:
     handler: handler.router
     events:
       - http:
-          path: resource
+          path: payments
           method: any
           cors: true
       - http:
-          path: resource/{id}
+          path: policy
           method: any
           cors: true
