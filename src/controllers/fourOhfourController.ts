@@ -10,7 +10,7 @@ const forward = async (event: APIGatewayProxyEvent, context?: Context) => {
       'Access-Control-Allow-Credentials': true,
     },
     body: JSON.stringify({
-      message: `Unable to find resource`,
+      message: `Unable to find resource for path: ${event.path}`,
     }),
   };
 };
