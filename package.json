@@ -14,8 +14,10 @@
   },
   "scripts": {
     "build": "tsc",
+    "start": "npm run build && sam local start-api",
     "test:integration": "jest --config=jest.integration.config.json --passWithNoTests --forceExit --ci",
-    "test:unit": "jest --config=jest.unit.config.json --passWithNoTests --forceExit --ci"
+    "test:unit": "jest --config=jest.unit.config.json --passWithNoTests --forceExit --ci --collect-coverage",
+    "format": "prettier --write ./src"
   },
   "prettier": {
     "trailingComma": "es5",
@@ -24,6 +26,7 @@
     "singleQuote": true
   },
   "jest": {
+    "automock": false,
     "roots": [
       "<rootDir>/src"
     ],
@@ -32,12 +35,18 @@
     },
     "testPathIgnorePatterns": [
       "/node_modules/"
+    ],
+    "setupFiles": [
+      "./src/setupJest.js"
     ]
   },
   "author": "Reginald Ross",
   "license": "ISC",
   "dependencies": {
+    "@types/node-fetch": "^2.5.7",
     "babel-jest": "^26.1.0",
+    "jest-fetch-mock": "^3.0.3",
+    "node-fetch": "^2.6.0",
     "prettier": "^2.0.5"
   }
 }

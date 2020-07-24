@@ -3,6 +3,15 @@ app: authentication-proxy
 name: authentication-proxy
 component: aws-lambda
 
-inputs:
-  src: ./build
-  handler: app.lambdaHandler
+functions:
+  hello:
+    handler: handler.router
+    events:
+      - http:
+          path: resource
+          method: any
+          cors: true
+      - http:
+          path: resource/{id}
+          method: any
+          cors: true

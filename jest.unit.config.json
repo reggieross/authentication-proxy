@@ -4,5 +4,15 @@
     "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest"
   },
   "testMatch": ["**/?(*.)+(spec|test).[jt]s?(x)"],
-  "testPathIgnorePatterns": ["/node_modules/"]
+  "testPathIgnorePatterns": ["/node_modules/"],
+  "setupFiles": ["./src/setupJest.js"],
+  "automock": false,
+  "coverageThreshold": {
+    "global": {
+      "branches": 90,
+      "functions": 90,
+      "lines": 90,
+      "statements": 90
+    }
+  }
 }

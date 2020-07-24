@@ -4,14 +4,13 @@ import {
   Callback,
   Context,
 } from 'aws-lambda';
+import { getController } from './controllers/controllerFactory';
 
 export const lambdaHandler = async (
   event: APIGatewayProxyEvent,
   context?: Context,
   callback?: Callback
 ): Promise<APIGatewayProxyResult> => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ message: 'Hello World' }),
-  };
+  const controller = getController(event.path);
+  return await controller.forward(event, context);
 };
