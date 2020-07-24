@@ -87,12 +87,11 @@ workflows:
             - integration-test
             - unit-test
 
-  int_deploy:
-    jobs:
       - hold_int:
           type: approval
           requires:
             - deploy_dev
+
       - deploy_int:
           requires:
             - hold_int
@@ -102,12 +101,11 @@ workflows:
               only:
                 - master
 
-  prd_deploy:
-    jobs:
       - hold_prd:
           type: approval
           requires:
             - deploy_int
+
       - deploy_prd:
           context: authentication_proxy
           requires:
